@@ -1,0 +1,144 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification de l'annonce {{ ad.id }}{% endblock %}
+
+{% form_theme form _self %} {# Permet d'utiliser notre propre thème de formulaire #}
+
+{% block body %}
+<div class="container">
+    <h1>Modification de l'annonce {{ ad.title }}</h1>
+
+    {{ form_start(form) }}
+    
+    <div class="row my-5">
+        <div class="col">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4>Corriger l'annonce ?</h4>
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i>
+                        Enregistrer les modifications
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-light">                
+                <div class="card-header">
+                    <h4 class="card-title">Les réservations</h4> 
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Voyageur</th>
+                                <th>Date de réservation</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for booking in ad.bookings %}
+                            <tr>
+                                <td>{{ booking.id }}</td>
+                                <td>{{ booking.booker.fullname}}</td>
+                                <td>{{ booking.createdAt | date('d/m/Y H:i')}}</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card bg-light mt-5">                
+                <div class="card-header">
+                    <h4 class="card-title">Les commentaires</h4> 
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Voyageur</th>
+                                <th>Note</th>
+                                <th>Commentaire</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for comments in ad.comments %}
+                            <tr>
+                                <td>{{ comments.id }}</td>
+                                <td>{{ comments.author.fullname}}</td>
+                                <td>{{ comments.rating }}</td>
+                                <td>{{ comments.content }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{ form_end(form) }}
+    
+</div>
+{% endblock %}
+
+{# Start: Définition du thème du formulaire #}
+{% block _annonce_images_widget %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+
+{% block _annonce_images_entry_row %}
+    <div class="block_{{id}}">
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+
+{% block _annonce_images_entry_widget %}
+    <div class="row align-items-center mb-3">
+        <div class="col-4">
+        {% if value %}
+            <img src="{{ value.url }}" alt="" class="img-fluid">
+        {% endif %}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.caption) }}
+        </div>
+        <div class="col">
+            <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+{# End: Définition du thème du formulaire #}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('[data-action="delete"]').on('click', function() {
+                const target = this.dataset.target;
+                $(target).remove();
+            });
+        });
+    </script>
+{% endblock %}

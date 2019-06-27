@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="http://localhost/phpmyadmin/db_structure.php?server=1&amp;db=symbnb" uuid="1e356176-58bb-461c-b02b-fc9fc7697f65">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0.0" />
+      <secret-storage>master_key</secret-storage>
+    </data-source>
+  </component>
+</project>
